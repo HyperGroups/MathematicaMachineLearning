@@ -1,0 +1,95 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      2513,         86]
+NotebookOptionsPosition[      2162,         69]
+NotebookOutlinePosition[      2507,         84]
+CellTagsIndexPosition[      2464,         81]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Code optimization, Pad missing keys and Toal part of values", "Section",
+ CellChangeTimes->{{3.6327859050093846`*^9, 3.632785915637911*^9}, {
+  3.6327863939967756`*^9, 3.632786403004137*^9}, {3.632786693067401*^9, 
+  3.6327867219958878`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"fun", "[", "list_", "]"}], ":=", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"temp", "=", 
+      RowBox[{"TakeWhile", "[", 
+       RowBox[{"list", ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#1", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "<", "10"}], "&"}]}], "]"}]}], ";", 
+     RowBox[{"temp", "~", "Join", "~", 
+      RowBox[{"Thread", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Complement", "[", 
+          RowBox[{
+           RowBox[{"Range", "[", "9", "]"}], ",", 
+           RowBox[{"temp", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "1"}], "]"}], "]"}]}], "]"}], ",", "0"}], 
+        "}"}], "]"}], "~", "Join", "~", 
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", 
+         RowBox[{"Total", "[", 
+          RowBox[{"ttt", "=", 
+           RowBox[{
+            RowBox[{"Complement", "[", 
+             RowBox[{"list", ",", "temp"}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "2"}], "]"}], "]"}]}], "]"}]}], "}"}], 
+       "}"}]}]}], ")"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Notebook2MathematicaSE", "[", 
+  RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6327865073942966`*^9, 3.6327865123448305`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1520, 663},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (September 9, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 248, 3, 93, "Section"],
+Cell[831, 27, 1127, 34, 104, "Input"],
+Cell[1961, 63, 185, 3, 78, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
