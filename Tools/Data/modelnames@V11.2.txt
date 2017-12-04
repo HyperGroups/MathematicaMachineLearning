@@ -1,0 +1,16 @@
+AdaIN-Style Trained on MS-COCO and Painter by Numbers Data
+Age Estimation VGG-16 Trained on IMDB-WIKI Data
+Gender Prediction VGG-16 Trained on IMDB-WIKI Data
+GloVe 50-Dimensional Word Vectors Trained on Wikipedia and Gigaword-5 Data
+Inception V1 Trained on Extended Salient Object Subitizing Data
+Inception V1 Trained on Places365 Data
+Inception V1 Trained on ImageNet Competition Data
+Inception V3 Trained on ImageNet Competition Data
+LeNet Trained on MNIST Data
+ResNet-101 Trained on Augmented Casia WebFace Data
+ResNet-152 Trained on ImageNet Competition Data
+SqueezeNet V1.1 Trained on ImageNet Competition Data
+VGG-16 Trained on ImageNet Competition Data
+VGG-19 Trained on ImageNet Competition Data
+Wolfram ImageIdentify Net for WL 11.1
+Yahoo Open NSFW Model V1
