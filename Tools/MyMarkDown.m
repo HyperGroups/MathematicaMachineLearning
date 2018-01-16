@@ -57,7 +57,7 @@ StyleBox2SE::usage="\:4e3b\:8981\:662f";
 (*htmlString::usage="";*)
 
 
-Begin["`Private`"];
+(*Begin["`Private`"];*)
 
 
 (* ::Section:: *)
@@ -159,36 +159,8 @@ InputCell2SE[cellExpression_, width_: 80, length_: 2000] := Module[{str, strFina
 str = First[FrontEndExecute[FrontEnd`ExportPacket[cellExpression, "InputText"]]];
 
 str1= "    "<>StringDelete[str,{"\r","\n", Repeated[" ",{2,\[Infinity]}]}];
-str2= StringReplace[str1, ";"->";\n    "]
-]
-
-
-(* ::Text:: *)
-(*Output\:5355\:5143\:ff0c\:5b57\:7b26\:4e32\:6bd4\:8f83\:5c11\:7684\:ff0cCode\:6ce8\:91ca\:ff0c\:5b57\:7b26\:4e32\:6bd4\:8f83\:591a\:7684\:5355\:5143\:8868\:8fbe\:5f0f\:ff0cGraphicsBox\:7ed3\:6784\:7684\:56fe\:7247\:3002*)
-
-
-OutputCell2SE[cellExpression_,ImageOf_:0,outID_,title_]:=Module[{str, fileExport, dirExport, fileExportRelative},
-str= First[FrontEndExecute[FrontEnd`ExportPacket[cellExpression,"PlainText"]]];
-debug1=str;
-
-Which[MemberQ[cellExpression,GraphicsBox,\[Infinity],Heads->True],(
-dirExport= DirectoryName@fileExport;
-fileExportRelative= title<>"/resource/"<>title<>"_"<>(*NotebookDirectory[]<>*)ToString[outID]<>".jpg";
-fileExport= FileNameJoin[{"/Users/hypergroups/Documents/MyMarkdown/\:77e5\:4e4e\:4e13\:680f/", fileExportRelative}];
-If[Not@DirectoryQ@dirExport,CreateDirectory[dirExport]];
-Print@{fileExport, fileExportRelative};
-Check[Export[fileExport, cellExpression],Print@"ExportFailed"];
-"![OutputCell]("<>fileExportRelative<>")"
-)
-,
-True,str,
-(*StringLength@str<3000, str; Print@"Here",*)
-(*">     (*Output CellExpression, You can copy to Notebook or just Skip*)\n     "<>StringReplace[str, "\r\n"->""]*)
-True, Print@"CheckOutputCell"
-
-]
-
-
+str2= StringReplace[str1, {";;\n"->"[@@@]"}];
+str3= StringReplace[str2, {";"->";\n    ", "[@@@]"->";;"}]
 ]
 
 
@@ -232,29 +204,88 @@ Shortest["\\text{BlockColorLeft}\\{"~~x__~~"\\}\\text{BlockColorRight}"]:>"\\col
 (*\:6362\:884c\:7684\:4e00\:4e2a\:95ee\:9898\:ff0c\:4ee3\:7801\:4e2d\:6709\:624b\:52a8\:6253\:7684\:6362\:884c\:7b26\:662f\:8981\:4fdd\:7559\:7684\:ff0c\:56e0\:4e3a\:5404\:79cd\:539f\:56e0\:ff0c\:6682\:65f6\:5148\:4e0d\:589e\:52a0\:8fd9\:4e2a\:7279\:6027*)
 
 
-Cell2Markdown[x0_,ImageOff_:1,cellID_,title_]:=Module[{x=x0,CellExpression=x0,styleName,x1},cellExpression=CellExpression; styleName=CellExpression[[2]];
+(* ::Text:: *)
+(*Output\:5355\:5143\:ff0c\:5b57\:7b26\:4e32\:6bd4\:8f83\:5c11\:7684\:ff0cCode\:6ce8\:91ca\:ff0c\:5b57\:7b26\:4e32\:6bd4\:8f83\:591a\:7684\:5355\:5143\:8868\:8fbe\:5f0f\:ff0cGraphicsBox\:7ed3\:6784\:7684\:56fe\:7247\:3002*)
 
+
+Options[OutputCell2SE]={"outputType"->"String","dirOutput"->Directory[],"title"->"temp"};
+
+
+OutputCell2SE[cellExpression_,outID_,options: OptionsPattern[]]:=Module[{str, fileExport, dirExport, fileExportRelative},
+str= First[FrontEndExecute[FrontEnd`ExportPacket[cellExpression,"PlainText"]]];
+optionVar["outputType"]=OptionValue["outputType"];
+optionVar["dirOutput"]=OptionValue["dirOutput"];
+optionVar["title"]=OptionValue["title"];
+If[var["Debug"]==True,Print["OutputCell@outID="\:ff0coutID]];
+debug1=cellExpression;
+debug2=str;
+If[var["Debug"]==True, Print["CellType@",cellExpression[[2]]]];
+Which[MemberQ[cellExpression,GraphicsBox,\[Infinity],Heads->True]||
+MemberQ[cellExpression,Graphics3DBox,\[Infinity],Heads->True]||
+optionVar["outputType"]=="Image"||MemberQ[cellExpression,PanelBox,\[Infinity],Heads->True]||
+StringContainsQ[str,"ImageTag"],
+If[var["Debug"]==True,Print@"Graphics"];(
+fileExportRelative= FileNameJoin[{optionVar["title"],"/resource/",optionVar["title"]<>"_"<>ToString[outID]<>".jpg"}];
+fileExport= FileNameJoin[{optionVar["dirOutput"], fileExportRelative}];
+dirExport= DirectoryName@fileExport;
+If[Not@DirectoryQ@dirExport,CreateDirectory[dirExport]];
+Print@{"fileExport="fileExport,"fileExportRelative="fileExportRelative};
+Check[Export[fileExport, cellExpression],Print@"ExportFailed"];
+"![OutputCell]("<>fileExportRelative<>")"
+)
+,
+True,Print@"RawString";str,
+(*StringLength@str<3000, str; Print@"Here",*)
+(*">     (*Output CellExpression, You can copy to Notebook or just Skip*)\n     "<>StringReplace[str, "\r\n"->""]*)
+True, Print@"CheckOutputCell"
+
+]
+]
+
+
+Options[Cell2Markdown]={"dirOutput"->Directory[],"title"->"temp"};
+
+
+Cell2Markdown[x0_,cellID_,options:OptionsPattern[]]:=Module[{x=x0, CellExpression=x0, styleName, x1},
+optionVar["dirOutput"]=OptionValue["dirOutput"];
+optionVar["title"]=OptionValue["title"];
+cellExpression=CellExpression; 
+styleName=CellExpression[[2]];
+If[var["Debug"]==True,Print["cellID=",cellID]];
 Which[Options[CellExpression,CellTags][[1,2]]==="PlainText",First[FrontEndExecute[FrontEnd`ExportPacket[CellExpression,"PlainText"]]],
 Options[CellExpression,CellTags][[1,2]]==="CellExpression", 
 dubug1="    cellExpression=Cell["<>(StringReplace[First[FrontEndExecute[FrontEnd`ExportPacket[Cell[cellExpression[[1;;2]]],"PlainText"]]], Whitespace->""])<>(If[CellExpression[[2]]==={},"",",\""<>CellExpression[[2]]])<>"\"];CellPrint@cellExpression",
 
 (*ImageOff==0&&(Options[CellExpression,CellTags][[1,2]]==="Image"||Head[cellExpression[[1,1]]]===GraphicsBox),
 "![Mathematica graphics](http://i.stack.imgur.com/RDax0.png)",*)
-Options[CellExpression,CellTags][[1,2]]==="Image"||Head[cellExpression[[1,1]]]===GraphicsBox,OutputCell2SE[CellExpression,1,cellID,title],(*"![Mathematica graphics]("<>Export["test.jpg",cellExpression]<>")",*)
+Options[CellExpression,CellTags][[1,2]]==="Image"||Head[cellExpression[[1,1]]]===GraphicsBox,
+OutputCell2SE[CellExpression,cellID,"title"->optionVar["title"],"outputType"->"Image","dirOutput" -> optionVar["dirOutput"]],
 Or@@(styleName==#&/@{(*"InlineFormula","DisplayFormula",*)(*"Title","Section","Subsection","Subsubsection",*)"Text"}),StringReplace[TextCell2SE[CellExpression],TextReplaceRules],(*\:975eTex\:8f6c\:4e3aText---*)
 Or@@(styleName==#&/@{"Title","Subtitle","Subsubtitle","Section","Subsection","Subsubsection"}),SectionCell2SE[CellExpression],Or@@(styleName==#&/@{"InlineFormula"}),InlineFormulaCell2SE[CellExpression],
 Or@@(styleName==#&/@{"DisplayFormula","DisplayFormulaNumbered"}),DisplayFormulaCount++;(*(\:5bf9\:9f50)*)StringReplace[strFormula=InlineFormulaCell2SE[CellExpression],{StartOfString~~"\\[":>"$\\begin{align*}","\\]"~~EndOfString:>"\\end{align*}$"}],
 Or@@(styleName==#&/@{"Input","Code"}),(*"==================================================================Input "<>ToString[InputCounter=inputCellCount++]<>"\r\n"<>*)(*ToString[InputCounter=inputCellCount++];*)(*(*In["<>ToString[Ceiling[InputCounter]]<>"]:=*)"<>*)(strInput=InputCell2SE[CellExpression])<>"",
-Or@@(styleName==#&/@{"Output"}),OutputCell2SE[CellExpression,1,cellID,title],
-Or@@(styleName==#&/@{"Program","Quote"}),">"<>First@FrontEndExecute[FrontEnd`ExportPacket[CellExpression,"PlainText"]],True,First@FrontEndExecute[FrontEnd`ExportPacket[CellExpression,"PlainText"]]]]//Quiet
+Or@@(styleName==#&/@{"Output"}),
+OutputCell2SE[CellExpression,cellID,"title"->optionVar["title"],"dirOutput" -> optionVar["dirOutput"]],
+Or@@(styleName==#&/@{"Program","Quote"}),">"<>First@FrontEndExecute[FrontEnd`ExportPacket[CellExpression,"PlainText"]],
+True,
+First@FrontEndExecute[FrontEnd`ExportPacket[CellExpression,"PlainText"]]]]//Quiet
 
 
-Notebook2Markdown[nb0_: (nb := EvaluationNotebook[]), title_:"temp"] := Module[{nb = nb0}, cells = Cells[nb]; 
+Options[Notebook2Markdown]={"dirOutput"->Directory[], "title"->"temp"};
+
+
+Notebook2Markdown[nb0_: (nb := EvaluationNotebook[]), options:OptionsPattern[]] := Module[{nb = nb0}, 
+optionVar["dirOutput"]=OptionValue["dirOutput"];
+optionVar["title"]=OptionValue["title"];
+cells = Cells[nb]; 
 inputCells = Cells[nb, CellStyle -> "Input"]; inputCellCount = 1; DisplayFormulaCount = 0;(*inputCellCount=Length@inputCells;*)
-htmlString = Riffle[ToString /@ MapIndexed[Cell2Markdown[#1, 1(*ImageOff*), First@#2,title] & , (nbExpression = NotebookRead[Cells[nb](*[[1;;-2]]*)]; 
+htmlString = Riffle[ToString /@ MapIndexed[Cell2Markdown[#1, First@#2,"title"->optionVar["title"],"dirOutput"->optionVar["dirOutput"]] & , (nbExpression = NotebookRead[Cells[nb](*[[1;;-2]]*)]; 
 nbExpression = DeleteCases[nbExpression, Cell[___, CellTags -> "Ignore"]]; 
-Which[nbExpression[[1]][[1 ;; 2]] === Cell[BoxData[RowBox[{"Notebook2Markdown", "[", RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]], "Input"], nbExpression[[2 ;; -1]], 
-nbExpression[[-1]][[1 ;; 2]] === Cell[BoxData[RowBox[{"Notebook2Markdown", "[", RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]], "Input"], nbExpression[[1 ;; -2]], True, nbExpression])
+Which[nbExpression[[1]][[1 ;; 2]] === Cell[BoxData[RowBox[{"Notebook2Markdown", "[", RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]], "Input"], 
+nbExpression[[2 ;; -1]], 
+nbExpression[[-1]][[1 ;; 2]] === Cell[BoxData[RowBox[{"Notebook2Markdown", "[", RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]], "Input"], 
+nbExpression[[1 ;; -2]], 
+True, nbExpression])
 ]
 , "\r\n"] // StringJoin; 
 htmlString // CopyToClipboard]
@@ -264,7 +295,7 @@ htmlString // CopyToClipboard]
 (*End*)
 
 
-End[]
+(*End[]*)
 
 
 EndPackage[ ]
