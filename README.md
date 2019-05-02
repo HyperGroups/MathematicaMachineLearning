@@ -27,7 +27,7 @@ https://mathematica.stackexchange.com/q/154479/6648
 对Mathematica机器学习感觉兴趣且会持续研究的可以
 加Mathematica机器学习@QQ群: 558543790
 Matlab都有千人深度学习群了，Mathematica没人玩。。。
-相亲交友搞基可以加：QQ群: 592284316
-我的粉丝和我的偶像可以加QQ群: 684304751
+
+
 
 
