@@ -40,7 +40,7 @@ https://mathematica.stackexchange.com/q/154479/6648
 Matlab都有千人深度学习群了，Mathematica没人玩。。。
 
 Mathematica粉丝高级群，可以加QQ群: 592284316
-此群要求具有一定Mathematica基础，我们一起玩一些共同的问题，项目。
+此群要求具有一定Mathematica基础，我们一起玩一些共同的问题，项目，可以有经费支持，比如星巴克支持。
 
 
 
