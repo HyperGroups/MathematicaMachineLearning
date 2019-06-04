@@ -1,0 +1,188 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      6573,        180]
+NotebookOptionsPosition[      5724,        161]
+NotebookOutlinePosition[      6060,        176]
+CellTagsIndexPosition[      6017,        173]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"zip", "=", 
+   RowBox[{"URLDownload", "[", 
+    RowBox[{
+    "\"\<https://wolfr.am/ebyHmnkR\>\"", ",", "\"\<characters12.zip\>\""}], 
+    "]"}]}], ";", 
+  RowBox[{"dir", "=", 
+   RowBox[{"CreateDirectory", "[", "]"}]}], ";", 
+  RowBox[{
+   RowBox[{"ExtractArchive", "[", 
+    RowBox[{
+     RowBox[{"First", "@", "zip"}], ",", "dir"}], "]"}], "//", 
+   "Length"}]}]], "Input",
+ CellChangeTimes->{{3.7144498656407084`*^9, 
+  3.7144498656527405`*^9}},ExpressionUUID->"96e04709-1cfd-445c-979d-\
+550b6a7688c1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"loadFiles", "[", "dir_", "]"}], ":=", 
+   RowBox[{"Map", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"File", "[", "#", "]"}], "\[Rule]", 
+       RowBox[{"FileNameTake", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"{", 
+          RowBox[{"-", "2"}], "}"}]}], "]"}]}], "&"}], ",", 
+     RowBox[{"FileNames", "[", 
+      RowBox[{"\"\<*.jpg\>\"", ",", "dir", ",", "Infinity"}], "]"}]}], 
+    "]"}]}], ";", 
+  RowBox[{"trainingData", "=", 
+   RowBox[{"loadFiles", "[", 
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"dir", ",", "\"\<characters\>\"", ",", "\"\<train\>\""}], "}"}],
+      "]"}], "]"}]}], ";", 
+  RowBox[{"testData", "=", 
+   RowBox[{"loadFiles", "[", 
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"dir", ",", "\"\<characters\>\"", ",", "\"\<test\>\""}], "}"}], 
+     "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7144498763457303`*^9, 
+  3.7144498763957167`*^9}},ExpressionUUID->"62efd63e-4952-463a-b504-\
+7eb44a9b4298"],
+
+Cell[BoxData[
+ RowBox[{"net", "=", 
+  RowBox[{"NetChain", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FlattenLayer", "[", "]"}], ",", 
+      RowBox[{"DotPlusLayer", "[", "2", "]"}], ",", 
+      RowBox[{"SoftmaxLayer", "[", "]"}]}], "}"}], ",", 
+    RowBox[{"\"\<Output\>\"", "\[Rule]", 
+     RowBox[{"NetDecoder", "[", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Class\>\"", ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<1\>\"", ",", "\"\<2\>\""}], "}"}]}], "}"}], "]"}]}], 
+    ",", 
+    RowBox[{"\"\<Input\>\"", "\[Rule]", 
+     RowBox[{"NetEncoder", "[", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Image\>\"", ",", 
+        RowBox[{"{", 
+         RowBox[{"28", ",", "32"}], "}"}], ",", "\"\<Grayscale\>\""}], "}"}], 
+      "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.714449883042311*^9, 3.7144498830538435`*^9}, {
+  3.714451696030796*^9, 
+  3.7144516961521635`*^9}},ExpressionUUID->"18f8bf43-5cbd-418e-a53b-\
+f23495371310"],
+
+Cell[BoxData[
+ RowBox[{"trained", "=", 
+  RowBox[{"NetTrain", "[", 
+   RowBox[{"net", ",", "trainingData", ",", 
+    RowBox[{"ValidationSet", "\[Rule]", "testData"}], ",", 
+    RowBox[{"MaxTrainingRounds", "\[Rule]", "600"}], ",", 
+    RowBox[{"BatchSize", "\[Rule]", "64"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.714449888067299*^9, 
+  3.714449888079912*^9}},ExpressionUUID->"ad900034-6285-4b0d-8661-\
+9496bbef0c4d"],
+
+Cell[BoxData[
+ RowBox[{"ims", "=", 
+  RowBox[{"Keys", "@", 
+   RowBox[{"RandomSample", "[", 
+    RowBox[{"testData", ",", "3"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.7144498940906763`*^9, 3.7144498941062183`*^9}, {
+  3.7144516835282235`*^9, 
+  3.7144516858934894`*^9}},ExpressionUUID->"08c5431e-059b-41e5-a830-\
+f1c985c1297a"],
+
+Cell[BoxData[
+ RowBox[{"trained", "/@", "ims"}]], "Input",
+ CellChangeTimes->{{3.7144498940906763`*^9, 3.7144498941062183`*^9}, 
+   3.7144516835282235`*^9},ExpressionUUID->"04f9732c-a7ad-4b80-8efb-\
+d8a31b584cad"],
+
+Cell[BoxData[
+ RowBox[{"trained", "[", 
+  RowBox[{
+   GraphicsBox[
+    TagBox[RasterBox[CompressedData["
+1:eJztVUtrGlEUNj6iiY9UySJIN125zUq6kEhEIg3oIqULlwlNQ0GmqIVqRCQG
+NZJV8Ee4yUbBXVYJ5Ff4A4yiece308859TBMHkwX3fVADtc7537nO8982Pmx
+9U2r0WjiJqit7V/rsdh28vM7/PgixL/vCbtfPwk/d/d2Yx93dLh8/+dvehZf
+kclkAv3w8CD/ORqNoB8fH9ns/v4eejAYvIYjF3pOcnV1RYfr6+vxeIwDdLfb
+ZRu58RvS6/XkPPlMJPv9PpEE8s3NjRpAEqLE+KenpxsbG3q9fprkeNxoNObz
+eTIAshpAhElQCLxerx8eHmokmZubgzaZppWzWq2xWEwei0oJBAKEBoZLS0s4
+2O12zUxOTk5gMxwO1QM2m83FxUW8NZvNYOVyuUQpjbVaDTcGgwGfkKK7uzs1
+aNQksKdIc7lcu90WZ9VBoYknMsxpVyPUkxNJ6IaTDMzNzU1gZrNZ9YB4y50M
+hKenJ/6E7CWTSQAuLCxEIhHcqIxdDs5Qt7e30KANepSTYrHYaDRUQnHLKeaO
+RsYoCXjCi8ohIkHyuffAls/lcplaK5VK0U2r1VIDCATFHBF5XDqdTur8v02j
+KEUN5MvLy4ODg/39/ePjYxDT6XTURegu2CB2efneFvRnKBTCW61WSyBIIB0s
+Fgs0eok6Fsy52eTPOS6SQqGAVzabjTYGJojQ5ufn2QWNPNZIp9N5TgleuHZI
+kd/vZ3pra2ulUsnr9cqRM5kMDb5ekouLC0XpeRPiHjoYDGKKER2MBUE4Ojpa
+XV3F8+XlZXjxeDzn5+coWaVSCYfD5AL3itjl2YA9L5xEIoHYcaAdgqh9Pp8i
+Y7z6XiwHEcYyBB+YgSrWDoGvrKy43e5oNIoJAkMUGquegsU0pdPps7MzbjZF
+MrEfkHB5/hE+qIKwggPZwwXP2vN/Hxw78oCMORwOAKL01WqVvlIHonzoWLgW
+Z1MAcKC9uOsQjih1OFlSKsgRDTtpdk0ueFTJy3/5d/IbNwt7sQ==
+      "], {{0, 28}, {28, 
+      0}}, {0, 255},
+      ColorFunction->RGBColor],
+     BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
+     Selectable->False],
+    DefaultBaseStyle->"ImageGraphics",
+    ImageSize->Automatic,
+    ImageSizeRaw->{28, 28},
+    PlotRange->{{0, 28}, {0, 28}}], ",", " ", "\"\<Probabilities\>\""}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.7144498998802085`*^9, 
+  3.7144498998911333`*^9}},ExpressionUUID->"8696f217-42ae-43e6-83b4-\
+d9105fb715da"]
+},
+WindowSize->{1680, 930},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 540, 16, 109, "Input",ExpressionUUID->"96e04709-1cfd-445c-979d-550b6a7688c1"],
+Cell[1101, 38, 1054, 30, 109, "Input",ExpressionUUID->"62efd63e-4952-463a-b504-7eb44a9b4298"],
+Cell[2158, 70, 954, 26, 78, "Input",ExpressionUUID->"18f8bf43-5cbd-418e-a53b-f23495371310"],
+Cell[3115, 98, 422, 9, 46, "Input",ExpressionUUID->"ad900034-6285-4b0d-8661-9496bbef0c4d"],
+Cell[3540, 109, 332, 8, 46, "Input",ExpressionUUID->"08c5431e-059b-41e5-a830-f1c985c1297a"],
+Cell[3875, 119, 213, 4, 46, "Input",ExpressionUUID->"04f9732c-a7ad-4b80-8efb-d8a31b584cad"],
+Cell[4091, 125, 1629, 34, 64, "Input",ExpressionUUID->"8696f217-42ae-43e6-83b4-d9105fb715da"]
+}
+]
+*)
+
