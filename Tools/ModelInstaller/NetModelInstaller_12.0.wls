@@ -187,6 +187,18 @@ assoUUID2ModelName=Association[NetModel[#,"UUID"]->#&/@names];
 Keys[assoUUID2ModelName]==Values[assoModelName2UUID]
 
 
+files=FileNames["*.WLNet","D:\\wolfram\\NetModels"];
+
+
+assoNamesFiles=KeyMap[assoUUID2ModelName,GroupBy[files,FileBaseName,First]];
+
+
+assoNames2Install=KeyTake[assoNamesFiles,modelNamesCloud]
+
+
+asso2Install=KeyValueMap[modelInstallFile[#1,#2]&,assoNames2Install]
+
+
 (*exportModels[#,"D:\\wolfram\\NetModels"]&/@modelNamesCloud*)
 
 
