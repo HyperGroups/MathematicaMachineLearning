@@ -11,7 +11,7 @@
 
 diffMat=tile(inX, (dataSetSize,1))-dataSet
 
-![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2//knn/resource/knn_5.jpg)
+![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2/knn/resource/knn_5.jpg)
 
 tile就是平铺，瓦片，操作系统桌面的背景图片里有这词
 
@@ -69,13 +69,13 @@ argsort返回的是位置\[DoubleLongLeftRightArrow]Ordering
 
 )
 
-![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2//knn/resource/knn_17.jpg)
+![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2/knn/resource/knn_17.jpg)
 
     classify0[vec, dataSet, labels, 10]
 
 <|B->5,A->3,D->1,C->1|>
 
-![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2//knn/resource/knn_20.jpg)
+![OutputCell](https://raw.githubusercontent.com/HyperGroups/MathematicaMachineLearning/master/Articles/mathematica/Notes@MachineLearningInAction/Chapter2/knn/resource/knn_20.jpg)
 
 ### 优化版
 
@@ -122,4 +122,4 @@ argsort返回的是位置\[DoubleLongLeftRightArrow]Ordering
 
     << "/Users/hypergroups/Nutstore/Wolfram \Mathematica/DeployProjects/MyMarkDown/MyMarkDown.wl"
 
-    Notebook2Markdown[EvaluationNotebook[],  "dirOutput" -> NotebookDirectory[], "title" -> "knn",  ImagePrefix -> "https://raw.githubusercontent.com/HyperGroups/\MathematicaMachineLearning/master/Articles/mathematica/Notes@\MachineLearningInAction/Chapter2/"]
+    Notebook2Markdown[EvaluationNotebook[],  "dirOutput" -> NotebookDirectory[], "title" -> "knn",  ImagePrefix -> "https://raw.githubusercontent.com/HyperGroups/\MathematicaMachineLearning/master/Articles/mathematica/Notes@\MachineLearningInAction/Chapter2"]
