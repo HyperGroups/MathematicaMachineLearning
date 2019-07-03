@@ -122,4 +122,6 @@ argsort返回的是位置\[DoubleLongLeftRightArrow]Ordering
 
     << "/Users/hypergroups/Nutstore/Wolfram \Mathematica/DeployProjects/MyMarkDown/MyMarkDown.wl"
 
-    Notebook2Markdown[EvaluationNotebook[],  "dirOutput" -> NotebookDirectory[], "title" -> "knn",  ImagePrefix -> "https://raw.githubusercontent.com/HyperGroups/\MathematicaMachineLearning/master/Articles/mathematica/Notes@\MachineLearningInAction/Chapter2"]
+    Notebook2Markdown[EvaluationNotebook[],  "dirOutput" -> NotebookDirectory[], "title" -> "knn",  ImagePrefix -> "https://raw.githubusercontent.com/HyperGroups/\MathematicaMachineLearning/master/Articles/Notes@\MachineLearningInAction/Chapter2"]
+
+https://github.com/HyperGroups/MathematicaMachineLearning/blob/master/Articles/Notes@MachineLearningInAction/Chapter2/knn/resource/knn_17.jpg?raw=true
