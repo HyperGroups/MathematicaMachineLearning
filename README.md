@@ -1,47 +1,76 @@
 # MathematicaMachineLearning
 
+> 用 Wolfram Language / Mathematica 做机器学习的个人资料集：课程与书籍代码、工作与作业实践、图像处理与神经网络模型工具等。
+>
+> **基准版本：Wolfram 14 / 15**（仓库历史内容创建于 V11–V12，正按 13/14/15 逐步现代化，详见 [`ASSESSMENT.md`](ASSESSMENT.md) 与 [`CHANGELOG.md`](CHANGELOG.md)）。
 
-Project About Mathematica Machine Learning
+## 目录
 
-一些个人围绕Mathematica机器学习相关内容的整理，包括学习一些机器学习课程及阅读一些书的代码，以及工作中的有些代码和历史作业代码。
+- [简介](#简介)
+- [环境要求](#环境要求)
+- [仓库结构](#仓库结构)
+- [如何使用](#如何使用)
+- [现代化状态](#现代化状态)
+- [相关链接](#相关链接)
+- [贡献](#贡献)
+- [许可证](#许可证)
 
-同时也包含一些相关代码，比如图像处理等，可以扩大部分受众。
+## 简介
 
-参考来源如机器学习实战，数学科学实战，PRML，Mathematica帮助，学习工作中的实践应用，网络视频课程，网络文章及stackexchange等帖子，习题解答等。
+围绕 Mathematica 机器学习的笔记与代码整理，参考来源包括《机器学习实战》《数学之美》《PRML》、Wolfram 帮助文档、网络课程与文章、Mathematica StackExchange 帖子及习题解答等。
 
-项目分块
-第一部分是相关博文，比如知乎专栏，主要关于Mathematica机器学习相关的笔记和文档。
-第二部分相关代码资源，第一部分的博文中相关的不相关的代码在此仓库。
-第三部分为相关数据资源，主要整理在坚果云或百度云或QQ群。
+项目分三块：
 
-文档排版最好看最高级的是语雀平台
-https://www.yuque.com/mathematica/machinelearning
-知乎专栏
-https://zhuanlan.zhihu.com/MathematicaMachineLearning
+1. **博文/笔记** —— 知乎专栏、语雀等平台上关于 Mathematica 机器学习的笔记与文档。
+2. **代码资源** —— 上述博文配套及独立的代码（本仓库主体）。
+3. **数据资源** —— 较大的数据集另存于网盘/群文件，仓库内只保留小样例。
 
-欢迎各路大神及Contributors
-有些大家一起玩，可以积累些代码模板，整齐的数据集，有趣的结论。
+目标是积累可复用的**代码模板**、整齐的**数据集**与有趣的**结论**，例如：某模板用 PCA+SVM 在 MNIST 上达到 ~0.98，欢迎直接跑、调参、在其他数据集上复现，并做性能测试（如"百万图片预测能否优化到 1 小时"）。
 
-举例来说，某个数据集的优化
-xxx写一个模板代码，试验了一下PCA+SVM在mnist上达到了0.98, 你有兴趣的可以直接跑跑看，调调参数，复现复现一些公开数据集上的常见模型在其他框架上的效果，优化优化代码模板。
-看看最终能到什么效果，并且可以在别的数据集上测试一下，这样我们两个人的总体花费时间就少了，我也很高兴可以知道这个模板在别的数据集是什么效果。
+## 环境要求
 
-比如做些性能测试啊，举例：某个预测100万图片，是否能优化到1个小时。
+- **Wolfram Language / Mathematica 14 或 15**（历史笔记本可在 13+ 打开；个别用到新结构如 `Tabular` 的示例需 14+）。
+- 部分工具需 `wolframscript`（命令行）与 **Wolfram 账户登录**（NetModel 联网下载）。
+- 神经网络模型按需联网下载，并缓存到本地对象库 `$LocalBase`（用 `LocalObjects[]` 查看、`ResourceRemove` 清除）。
 
-有些坑完全不用自己踩一下，比如下面的几个问题，做了几个示例example.
+## 仓库结构
 
-专栏上也有一些文章啦
+| 目录 | 内容 |
+|---|---|
+| `Articles/` | 博文/读书笔记（如《机器学习实战》Chapter 2 KNN） |
+| `Tools/` | NetModel 下载/安装/帮助脚本、笔记本→Markdown 转换器 |
+| `MNIST/` | MNIST 分类、聚类、SVM 示例 |
+| `ImageProcessing/` | 图像分类模板、卷积/人脸检测 |
+| `LogisticRegression/` | 逻辑回归检查与模型文件 |
+| `ZhiHu/` | 知乎专栏配套（自编码器、混淆矩阵、归一化与聚类） |
+| `Examples/` `Bugs/` `Captcha/` `CommonNotebooks/` | 杂项示例、bug 复现、验证码、常用片段 |
 
-https://mathematica.stackexchange.com/q/154862/6648
-https://mathematica.stackexchange.com/q/154661/6648
-https://mathematica.stackexchange.com/q/154479/6648
+## 如何使用
 
-对Mathematica机器学习感兴趣且会持续研究的可以加Mathematica机器学习@QQ群: 558543790
-Matlab都有千人深度学习群了，Mathematica没人玩。。。
+- **打开笔记本**：用 Mathematica 直接打开对应 `.nb`。
+- **运行脚本**：命令行 `wolframscript -file Tools/NetModelDownloader.wls`（详见 [`Tools/README.md`](Tools/README.md)）。
+- **路径说明**：历史代码中曾硬编码 `/Users/hypergroups/...`、`D:\wolfram\...` 等绝对路径；现代化后改用 `NotebookDirectory[]` / 可配置变量，请按本机环境调整。
 
-Mathematica粉丝高级群，可以加QQ群: 592284316
-此群要求具有一定Mathematica基础，我们一起玩一些共同的问题，项目，可以有经费支持，比如星巴克支持。
+## 现代化状态
 
+本仓库正从 V11–V12 向 13/14/15 迁移。完整评估、问题清单与分阶段计划见 **[`ASSESSMENT.md`](ASSESSMENT.md)**；变更记录见 **[`CHANGELOG.md`](CHANGELOG.md)**。
 
+> 说明：`.nb` 为 Wolfram 二进制/盒式结构文件，现代化以**新增配套文档/脚本**为主，不在未实机验证的情况下直接改写二进制笔记本。
 
+## 相关链接
 
+- 语雀文档：https://www.yuque.com/mathematica/machinelearning
+- 知乎专栏：https://zhuanlan.zhihu.com/MathematicaMachineLearning
+- Wolfram 神经网络仓库：https://resources.wolframcloud.com/NeuralNetRepository/
+- 相关 Mathematica.SE 提问：
+  [154862](https://mathematica.stackexchange.com/q/154862/6648) ·
+  [154661](https://mathematica.stackexchange.com/q/154661/6648) ·
+  [154479](https://mathematica.stackexchange.com/q/154479/6648)
+
+## 贡献
+
+欢迎 Issue / PR：补充代码模板、整理数据集、复现公开数据集上的常见模型、做性能测试。交流 QQ 群：558543790（机器学习）、592284316（Mathematica 高级群）。
+
+## 许可证
+
+见 [`LICENSE`](LICENSE)（MIT）。

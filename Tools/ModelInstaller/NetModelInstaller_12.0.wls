@@ -1,6 +1,10 @@
 #!/usr/bin/env wolframscript
 (* ::Package:: *)
 
+(* ::Text:: *)
+(*\[WarningSign] \:5df2\:5f03\:7528 DEPRECATED\:ff08\:9488\:5bf9 V12.0\:ff09\:3002\:4f9d\:8d56\:672a\:516c\:5f00\:79c1\:6709\:7b26\:53f7\:ff08ResourceSystemClient`Private`\:3001LocalObjects`\:ff09\:ff0c\:8de8\:7248\:672c\:5df2\:5931\:6548\:3002*)
+(*\:8bf7\:6539\:7528 NetModelInstaller.wls\:ff08\:9002\:7528 13/14/15\:ff0c\:57fa\:4e8e $LocalBase / ResourceObject / NetExternalObject\:ff09\:3002\:6b64\:6587\:4ef6\:4ec5\:4f5c\:5386\:53f2\:53c2\:8003\:3002*)
+
 (* ::Title:: *)
 (*NetModel-Installer*)
 
